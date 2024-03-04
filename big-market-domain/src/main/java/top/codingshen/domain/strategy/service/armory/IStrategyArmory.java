@@ -15,12 +15,4 @@ public interface IStrategyArmory {
      */
     boolean assembleLotteryStrategy(Long strategyId);
 
-    /**
-     * 根据策略 id 进行随机抽奖
-     *
-     * @param strategyId 策略 id
-     * @return
-     */
-    public Integer getRandomAwardId(Long strategyId);
-
 }

@@ -6,16 +6,14 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-import top.codingshen.infrastructure.persistent.dao.IAwardDao;
 import top.codingshen.infrastructure.persistent.dao.IStrategyRuleDao;
-import top.codingshen.infrastructure.persistent.po.Award;
-import top.codingshen.infrastructure.persistent.po.StrategyRule;
+import top.codingshen.infrastructure.persistent.po.StrategyRulePO;
 
 import javax.annotation.Resource;
 import java.util.List;
 
 /**
- * @ClassName AwardDaoTest
+ * @ClassName AwardPODaoTest
  * @Description 策略规则持久化单元测试
  * @Author alex_shen
  * @Date 2024/3/3 - 21:09
@@ -30,7 +28,7 @@ public class StrategyRuleDaoTest {
 
     @Test
     public void testQueryAwardList() {
-        List<StrategyRule> strategyRules = strategyRuleDao.queryStrategyRuleList();
+        List<StrategyRulePO> strategyRules = strategyRuleDao.queryStrategyRuleList();
         log.info("测试结果: {}", JSON.toJSONString(strategyRules));
     }
 }

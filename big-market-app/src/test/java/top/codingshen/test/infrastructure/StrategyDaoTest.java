@@ -6,16 +6,14 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-import top.codingshen.infrastructure.persistent.dao.IAwardDao;
 import top.codingshen.infrastructure.persistent.dao.IStrategyDao;
-import top.codingshen.infrastructure.persistent.po.Award;
-import top.codingshen.infrastructure.persistent.po.Strategy;
+import top.codingshen.infrastructure.persistent.po.StrategyPO;
 
 import javax.annotation.Resource;
 import java.util.List;
 
 /**
- * @ClassName AwardDaoTest
+ * @ClassName AwardPODaoTest
  * @Description 抽奖策略持久化单元测试
  * @Author alex_shen
  * @Date 2024/3/3 - 21:09
@@ -30,7 +28,7 @@ public class StrategyDaoTest {
 
     @Test
     public void testQueryAwardList() {
-        List<Strategy> strategies = strategyDao.queryStrategyList();
+        List<StrategyPO> strategies = strategyDao.queryStrategyList();
         log.info("测试结果: {}", JSON.toJSONString(strategies));
     }
 }

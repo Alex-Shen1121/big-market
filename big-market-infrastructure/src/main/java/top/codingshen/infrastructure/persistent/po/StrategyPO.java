@@ -5,13 +5,13 @@ import lombok.Data;
 import java.util.Date;
 
 /**
- * @ClassName Strategy
+ * @ClassName StrategyPO
  * @Description strategy 抽奖策略表
  * @Author alex_shen
  * @Date 2024/3/2 - 21:59
  */
 @Data
-public class Strategy {
+public class StrategyPO {
     /**
      * 自增ID
      **/
@@ -24,6 +24,8 @@ public class Strategy {
      * 抽奖策略描述
      **/
     private String strategyDesc;
+    /** 抽奖规则模型 rule_weight,rule_blacklist */
+    private String ruleModels;
     /**
      * 创建时间
      **/

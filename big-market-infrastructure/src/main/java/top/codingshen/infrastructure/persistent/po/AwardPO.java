@@ -5,13 +5,13 @@ import lombok.Data;
 import java.util.Date;
 
 /**
- * @ClassName Award
+ * @ClassName AwardPO
  * @Description award 奖品表
  * @Author alex_shen
  * @Date 2024/3/2 - 21:54
  */
 @Data
-public class Award {
+public class AwardPO {
 
     /**
      * 自增ID

@@ -2,6 +2,8 @@ package top.codingshen.domain.strategy.repository;
 
 import org.springframework.stereotype.Repository;
 import top.codingshen.domain.strategy.model.entity.StrategyAwardEntity;
+import top.codingshen.domain.strategy.model.entity.StrategyEntity;
+import top.codingshen.domain.strategy.model.entity.StrategyRuleEntity;
 
 import java.util.List;
 import java.util.Map;
@@ -25,11 +27,11 @@ public interface IStrategyRepository {
     /**
      * 存储策略奖品查询概率表
      *
-     * @param strategyId                           策略 id
+     * @param key                                  策略 id
      * @param rateRange                            概率范围
      * @param shuffleStrategyAwardSearchRateTables 策略奖品查询概率表
      */
-    void storeStrategyAwardSearchRateTable(Long strategyId, Integer rateRange, Map<Integer, Integer> shuffleStrategyAwardSearchRateTables);
+    void storeStrategyAwardSearchRateTable(String key, Integer rateRange, Map<Integer, Integer> shuffleStrategyAwardSearchRateTables);
 
     /**
      * 根据策略 id 获取概率范围
@@ -39,6 +41,8 @@ public interface IStrategyRepository {
      */
     int getRateRange(Long strategyId);
 
+    int getRateRange(String key);
+
     /**
      * 根据 strategyId 策略, 使用 rateKey 进行抽奖
      *
@@ -47,4 +51,23 @@ public interface IStrategyRepository {
      * @return 奖品 id
      */
     Integer getStrategyAwardAssemble(Long strategyId, int rateKey);
+
+    Integer getStrategyAwardAssemble(String key, int rateKey);
+
+    /**
+     * 根据策略 id 查询策略实体
+     *
+     * @param strategyId 策略 id
+     * @return 策略实体
+     */
+    StrategyEntity queryStrategyEntityByStrategyId(Long strategyId);
+
+    /**
+     * 根据策略 id 和规则模型查询具体的策略规则
+     *
+     * @param strategyId 策略 id
+     * @param ruleModel  规则模型
+     * @return 策略规则
+     */
+    StrategyRuleEntity queryStrategyRule(Long strategyId, String ruleModel);
 }

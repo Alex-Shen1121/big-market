@@ -6,13 +6,13 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 /**
- * @ClassName StrategyAward
+ * @ClassName StrategyAwardPO
  * @Description strategy_award 抽奖策略奖品明细配置
  * @Author alex_shen
  * @Date 2024/3/2 - 22:04
  */
 @Data
-public class StrategyAward {
+public class StrategyAwardPO {
     /**
      * 自增ID
      **/

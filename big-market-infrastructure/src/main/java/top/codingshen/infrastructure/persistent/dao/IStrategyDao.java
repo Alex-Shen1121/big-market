@@ -1,7 +1,7 @@
 package top.codingshen.infrastructure.persistent.dao;
 
 import org.apache.ibatis.annotations.Mapper;
-import top.codingshen.infrastructure.persistent.po.Strategy;
+import top.codingshen.infrastructure.persistent.po.StrategyPO;
 
 import java.util.List;
 
@@ -13,5 +13,7 @@ import java.util.List;
  */
 @Mapper
 public interface IStrategyDao {
-    List<Strategy> queryStrategyList();
+    List<StrategyPO> queryStrategyList();
+
+    StrategyPO queryStrategyByStrategyId(Long strategyId);
 }

@@ -5,13 +5,13 @@ import lombok.Data;
 import java.util.Date;
 
 /**
- * @ClassName StrategyRule
+ * @ClassName StrategyRulePO
  * @Description 策略规则配置
  * @Author alex_shen
  * @Date 2024/3/2 - 22:11
  */
 @Data
-public class StrategyRule {
+public class StrategyRulePO {
     /**
      * 自增ID
      **/

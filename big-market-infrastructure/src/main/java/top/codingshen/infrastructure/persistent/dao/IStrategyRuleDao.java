@@ -1,7 +1,7 @@
 package top.codingshen.infrastructure.persistent.dao;
 
 import org.apache.ibatis.annotations.Mapper;
-import top.codingshen.infrastructure.persistent.po.StrategyRule;
+import top.codingshen.infrastructure.persistent.po.StrategyRulePO;
 
 import java.util.List;
 
@@ -14,6 +14,7 @@ import java.util.List;
 @Mapper
 public interface IStrategyRuleDao {
 
-    List<StrategyRule> queryStrategyRuleList();
+    List<StrategyRulePO> queryStrategyRuleList();
 
+    StrategyRulePO queryStrategyRule(StrategyRulePO strategyRuleReq);
 }

@@ -1,7 +1,7 @@
 package top.codingshen.infrastructure.persistent.dao;
 
 import org.apache.ibatis.annotations.Mapper;
-import top.codingshen.infrastructure.persistent.po.Award;
+import top.codingshen.infrastructure.persistent.po.AwardPO;
 
 import java.util.List;
 
@@ -13,5 +13,5 @@ import java.util.List;
  */
 @Mapper
 public interface IAwardDao {
-    List<Award> queryAwardList();
+    List<AwardPO> queryAwardList();
 }

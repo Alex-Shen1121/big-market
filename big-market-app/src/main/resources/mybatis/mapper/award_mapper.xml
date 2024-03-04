@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="top.codingshen.infrastructure.persistent.dao.IAwardDao">
 
-    <resultMap id="dataMap" type="top.codingshen.infrastructure.persistent.po.Award">
+    <resultMap id="dataMap" type="top.codingshen.infrastructure.persistent.po.AwardPO">
         <id column="id" property="id"/>
         <result column="award_id" property="awardId"/>
         <result column="award_key" property="awardKey"/>
