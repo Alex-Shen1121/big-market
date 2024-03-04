@@ -32,7 +32,7 @@ spring:
 
 mybatis:
   mapper-locations: classpath:/mybatis/mapper/*.xml
-  config-location:  classpath:/mybatis/config/mybatis-config.xml
+  config-location: classpath:/mybatis/config/mybatis-config.xml
 
 # Redis
 redis:
@@ -52,5 +52,8 @@ redis:
 # 日志
 logging:
   level:
+    mybatis.mapper: debug
     root: info
   config: classpath:logback-spring.xml
+
+

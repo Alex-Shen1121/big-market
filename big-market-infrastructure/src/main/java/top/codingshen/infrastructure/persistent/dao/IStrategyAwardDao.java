@@ -1,5 +1,6 @@
 package top.codingshen.infrastructure.persistent.dao;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.annotations.Mapper;
 import top.codingshen.infrastructure.persistent.po.StrategyAward;
 
@@ -14,4 +15,6 @@ import java.util.List;
 @Mapper
 public interface IStrategyAwardDao {
     List<StrategyAward> queryStrategyAwardList();
+
+    List<StrategyAward> queryStrategyAwardListByStrategyId(Long strategyId);
 }
