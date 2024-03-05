@@ -103,7 +103,9 @@ public class StrategyRepository implements IStrategyRepository {
         StrategyEntity strategyEntity = redisService.getValue(cacheKey);
 
         // 命中缓存
-        if (null != strategyEntity) return strategyEntity;
+        if (null != strategyEntity){
+            return strategyEntity;
+        }
 
         // 缓存未命中, 从数据库查询
         StrategyPO strategyPO = strategyDao.queryStrategyByStrategyId(strategyId);

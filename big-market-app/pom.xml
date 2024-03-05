@@ -78,6 +78,15 @@
             <artifactId>converter-gson</artifactId>
             <version>2.9.0</version>
         </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+        </dependency>
+        <!-- Logback Classic Implementation -->
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+        </dependency>
 
         <!-- 工程模块；启动依赖 trigger->domain, infrastructure-->
         <dependency>

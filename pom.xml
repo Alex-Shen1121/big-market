@@ -105,23 +105,17 @@
                 <artifactId>redisson-spring-boot-starter</artifactId>
                 <version>3.23.4</version>
             </dependency>
-            <!-- slf4j日志门面 -->
+            <!-- SLF4J API -->
             <dependency>
                 <groupId>org.slf4j</groupId>
                 <artifactId>slf4j-api</artifactId>
-                <version>1.7.25</version>
+                <version>1.7.30</version>
             </dependency>
-            <!-- 引入slf4j对应log4j的桥接器 -->
+            <!-- Logback Classic Implementation -->
             <dependency>
-                <groupId>org.slf4j</groupId>
-                <artifactId>slf4j-log4j12</artifactId>
-                <version>1.7.25</version>
-            </dependency>
-            <!-- log4j日志实面（日志实现框架） -->
-            <dependency>
-                <groupId>log4j</groupId>
-                <artifactId>log4j</artifactId>
-                <version>1.2.17</version>
+                <groupId>ch.qos.logback</groupId>
+                <artifactId>logback-classic</artifactId>
+                <version>1.2.3</version>
             </dependency>
 
             <!-- 工程模块 -->

@@ -14,7 +14,6 @@ import java.util.Map;
  * @Author alex_shen
  * @Date 2024/3/4 - 15:09
  */
-@Repository
 public interface IStrategyRepository {
     /**
      * 查询策略奖品列表

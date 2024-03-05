@@ -2,6 +2,7 @@ package top.codingshen.domain.strategy.service;
 
 import top.codingshen.domain.strategy.model.entity.RaffleAwardEntity;
 import top.codingshen.domain.strategy.model.entity.RaffleFactorEntity;
+import top.codingshen.domain.strategy.model.entity.RuleActionEntity;
 
 /**
  * @ClassName IRaffleStrategy
