@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import top.codingshen.domain.strategy.model.entity.StrategyAwardEntity;
 import top.codingshen.domain.strategy.model.entity.StrategyEntity;
 import top.codingshen.domain.strategy.model.entity.StrategyRuleEntity;
+import top.codingshen.domain.strategy.model.valobj.StrategyAwardRuleModelVO;
 import top.codingshen.domain.strategy.repository.IStrategyRepository;
 import top.codingshen.infrastructure.persistent.dao.IStrategyAwardDao;
 import top.codingshen.infrastructure.persistent.dao.IStrategyDao;
@@ -139,5 +140,16 @@ public class StrategyRepository implements IStrategyRepository {
         strategyRule.setAwardId(awardId);
         strategyRule.setRuleModel(ruleModel);
         return strategyRuleDao.queryStrategyRuleValue(strategyRule);
+    }
+
+    @Override
+    public StrategyAwardRuleModelVO queryStrategyRuleModel(Long strategyId, Integer awardId) {
+        StrategyAwardPO strategyAwardPO = new StrategyAwardPO();
+        strategyAwardPO.setStrategyId(strategyId);
+        strategyAwardPO.setAwardId(awardId);
+        String ruleModels =  strategyAwardDao.queryStrategyAwardRuleModels(strategyAwardPO);
+        return StrategyAwardRuleModelVO.builder()
+                .ruleModels(ruleModels)
+                .build();
     }
 }

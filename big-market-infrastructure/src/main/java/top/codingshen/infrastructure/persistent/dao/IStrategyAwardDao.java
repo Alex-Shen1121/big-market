@@ -1,6 +1,7 @@
 package top.codingshen.infrastructure.persistent.dao;
 
 import org.apache.ibatis.annotations.Mapper;
+import top.codingshen.domain.strategy.model.valobj.StrategyAwardRuleModelVO;
 import top.codingshen.infrastructure.persistent.po.StrategyAwardPO;
 
 import java.util.List;
@@ -16,4 +17,6 @@ public interface IStrategyAwardDao {
     List<StrategyAwardPO> queryStrategyAwardList();
 
     List<StrategyAwardPO> queryStrategyAwardListByStrategyId(Long strategyId);
+
+    String queryStrategyAwardRuleModels(StrategyAwardPO strategyAwardPO);
 }

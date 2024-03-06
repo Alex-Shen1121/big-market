@@ -1,4 +1,4 @@
-package top.codingshen.domain.strategy.model.vo;
+package top.codingshen.domain.strategy.model.valobj;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

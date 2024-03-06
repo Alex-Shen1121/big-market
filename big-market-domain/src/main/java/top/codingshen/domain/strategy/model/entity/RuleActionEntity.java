@@ -1,7 +1,7 @@
 package top.codingshen.domain.strategy.model.entity;
 
 import lombok.*;
-import top.codingshen.domain.strategy.model.vo.RuleLogicCheckTypeVO;
+import top.codingshen.domain.strategy.model.valobj.RuleLogicCheckTypeVO;
 
 /**
  * @ClassName RuleActionEntity

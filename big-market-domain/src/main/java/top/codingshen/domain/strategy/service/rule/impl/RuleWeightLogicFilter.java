@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 import top.codingshen.domain.strategy.annotation.LogicStrategy;
 import top.codingshen.domain.strategy.model.entity.RuleActionEntity;
 import top.codingshen.domain.strategy.model.entity.RuleMatterEntity;
-import top.codingshen.domain.strategy.model.vo.RuleLogicCheckTypeVO;
+import top.codingshen.domain.strategy.model.valobj.RuleLogicCheckTypeVO;
 import top.codingshen.domain.strategy.repository.IStrategyRepository;
 import top.codingshen.domain.strategy.service.rule.ILogicFilter;
 import top.codingshen.domain.strategy.service.rule.factory.DefaultLogicFactory;

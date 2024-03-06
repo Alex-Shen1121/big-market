@@ -1,4 +1,4 @@
-# /usr/local/bin/docker-compose -f /docs/dev-ops/environment/environment-docker-compose-2.4.yml up -d
+# /usr/local/bin/docker-compose -f /docs/dev-ops/big-market-environment/big-market-environment-docker-compose-2.4.yml up -d
 version: '3.8'
 # docker-compose -f docker-compose-1.0.yml up -d
 # 你需要修改system为你自身系统的仓库名
