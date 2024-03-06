@@ -8,9 +8,11 @@ import top.codingshen.domain.strategy.model.entity.RuleActionEntity;
 import top.codingshen.domain.strategy.model.entity.RuleMatterEntity;
 import top.codingshen.domain.strategy.model.valobj.RuleLogicCheckTypeVO;
 import top.codingshen.domain.strategy.repository.IStrategyRepository;
+import top.codingshen.domain.strategy.service.AbstractRaffleStrategy;
 import top.codingshen.domain.strategy.service.armory.IStrategyDispatch;
 import top.codingshen.domain.strategy.service.rule.ILogicFilter;
-import top.codingshen.domain.strategy.service.rule.factory.DefaultLogicFactory;
+import top.codingshen.domain.strategy.service.rule.chain.factory.DefaultChainFactory;
+import top.codingshen.domain.strategy.service.rule.filter.factory.DefaultLogicFactory;
 
 import javax.annotation.Resource;
 import java.util.Arrays;
@@ -24,14 +26,14 @@ import java.util.stream.Collectors;
  * @Author alex_shen
  * @Date 2024/3/5 - 16:46
  */
-@Service
 @Slf4j
+@Service
 public class DefaultRaffleStrategy extends AbstractRaffleStrategy {
     @Resource
     private DefaultLogicFactory logicFactory;
 
-    public DefaultRaffleStrategy(IStrategyRepository repository, IStrategyDispatch strategyDispatch) {
-        super(repository, strategyDispatch);
+    public DefaultRaffleStrategy(IStrategyRepository repository, IStrategyDispatch strategyDispatch, DefaultChainFactory defaultChainFactory, DefaultLogicFactory logicFactory) {
+        super(repository, strategyDispatch, defaultChainFactory);
     }
 
     @Override

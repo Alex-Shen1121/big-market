@@ -104,7 +104,7 @@ public class StrategyRepository implements IStrategyRepository {
         StrategyEntity strategyEntity = redisService.getValue(cacheKey);
 
         // 命中缓存
-        if (null != strategyEntity){
+        if (null != strategyEntity) {
             return strategyEntity;
         }
 
@@ -143,11 +143,16 @@ public class StrategyRepository implements IStrategyRepository {
     }
 
     @Override
+    public String queryStrategyRuleValue(Long strategyId, String ruleModel) {
+        return queryStrategyRuleValue(strategyId, null, ruleModel);
+    }
+
+    @Override
     public StrategyAwardRuleModelVO queryStrategyRuleModel(Long strategyId, Integer awardId) {
         StrategyAwardPO strategyAwardPO = new StrategyAwardPO();
         strategyAwardPO.setStrategyId(strategyId);
         strategyAwardPO.setAwardId(awardId);
-        String ruleModels =  strategyAwardDao.queryStrategyAwardRuleModels(strategyAwardPO);
+        String ruleModels = strategyAwardDao.queryStrategyAwardRuleModels(strategyAwardPO);
         return StrategyAwardRuleModelVO.builder()
                 .ruleModels(ruleModels)
                 .build();

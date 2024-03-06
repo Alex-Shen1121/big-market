@@ -1,4 +1,4 @@
-package top.codingshen.domain.strategy.service.rule.factory;
+package top.codingshen.domain.strategy.service.rule.filter.factory;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
