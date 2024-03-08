@@ -26,6 +26,4 @@ public class RaffleFactorEntity {
      * 策略ID
      */
     private Long strategyId;
-    /** 奖品 ID */
-    private Integer awardId;
 }

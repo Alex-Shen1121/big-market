@@ -1,5 +1,7 @@
 package top.codingshen.domain.strategy.service.rule.chain;
 
+import top.codingshen.domain.strategy.service.rule.chain.factory.DefaultChainFactory;
+
 /**
  * @ClassName ILogicChain
  * @Description 责任链接口
@@ -15,5 +17,5 @@ public interface ILogicChain extends ILogicChainArmory {
      * @param strategyId 策略 id
      * @return 奖品 id
      */
-    Integer logic(String userId, Long strategyId);
+    DefaultChainFactory.StrategyAwardVO logic(String userId, Long strategyId);
 }

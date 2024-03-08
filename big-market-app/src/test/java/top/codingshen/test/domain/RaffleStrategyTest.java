@@ -13,7 +13,6 @@ import top.codingshen.domain.strategy.model.entity.RaffleFactorEntity;
 import top.codingshen.domain.strategy.service.IRaffleStrategy;
 import top.codingshen.domain.strategy.service.armory.IStrategyArmory;
 import top.codingshen.domain.strategy.service.rule.chain.impl.RuleWeightLogicChain;
-import top.codingshen.domain.strategy.service.rule.filter.impl.RuleLockLogicFilter;
 
 import javax.annotation.Resource;
 
@@ -34,34 +33,30 @@ public class RaffleStrategyTest {
 
     @Resource
     private RuleWeightLogicChain ruleWeightLogicChain;
-    @Resource
-    private RuleLockLogicFilter ruleLockLogicFilter;
 
     @Before
     public void setUp() {
         log.info("strategy {} 装配 测试结果: {}", 100001L, strategyArmory.assembleLotteryStrategy(100001L));
         log.info("strategy {} 装配 测试结果: {}", 100002L, strategyArmory.assembleLotteryStrategy(100002L));
         log.info("strategy {} 装配 测试结果: {}", 100003L, strategyArmory.assembleLotteryStrategy(100003L));
+        log.info("strategy {} 装配 测试结果: {}", 100003L, strategyArmory.assembleLotteryStrategy(100006L));
 
         // 通过反射 mock 规则中的值
         ReflectionTestUtils.setField(ruleWeightLogicChain, "userScore", 400L);
-        ReflectionTestUtils.setField(ruleLockLogicFilter, "userRaffleCount", 1L);
     }
 
     @Test
     public void test_performRaffle() {
         RaffleFactorEntity raffleFactorEntity = RaffleFactorEntity.builder()
                 .userId("scy")
-                .strategyId(100001L)
+                .strategyId(100006L)
                 .build();
 
-        for (int i = 0; i < 20; i++) {
+        RaffleAwardEntity raffleAwardEntity = raffleStrategy.performRaffle(raffleFactorEntity);
 
-            RaffleAwardEntity raffleAwardEntity = raffleStrategy.performRaffle(raffleFactorEntity);
+        log.info("请求参数：{}", JSON.toJSONString(raffleFactorEntity));
+        log.info("测试结果：{}", JSON.toJSONString(raffleAwardEntity));
 
-            log.info("请求参数：{}", JSON.toJSONString(raffleFactorEntity));
-            log.info("测试结果：{}", JSON.toJSONString(raffleAwardEntity));
-        }
     }
 
     @Test

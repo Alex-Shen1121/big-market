@@ -8,7 +8,6 @@ import top.codingshen.domain.strategy.model.valobj.RuleTreeVO;
 import top.codingshen.domain.strategy.service.rule.tree.ILogicTreeNode;
 import top.codingshen.domain.strategy.service.rule.tree.factory.DefaultTreeFactory;
 import top.codingshen.domain.strategy.service.rule.tree.factory.engine.IDecisionTreeEngine;
-import top.codingshen.types.exception.AppException;
 
 import java.util.List;
 import java.util.Map;
@@ -32,8 +31,8 @@ public class DecisionTreeEngine implements IDecisionTreeEngine {
     }
 
     @Override
-    public DefaultTreeFactory.StrategyAwardData process(String userId, Long strategyId, Integer awardId) {
-        DefaultTreeFactory.StrategyAwardData strategyAwardData = null;
+    public DefaultTreeFactory.StrategyAwardVO process(String userId, Long strategyId, Integer awardId) {
+        DefaultTreeFactory.StrategyAwardVO strategyAwardVO = null;
 
         // 获取基础信息 (规则树根节点)
         String nextNode = ruleTreeVO.getTreeRootRuleNode();
@@ -48,7 +47,7 @@ public class DecisionTreeEngine implements IDecisionTreeEngine {
             RuleLogicCheckTypeVO ruleLogicCheckTypeVO = logicEntity.getRuleLogicCheckType();
 
             // 保存结果
-            strategyAwardData = logicEntity.getStrategyAwardData();
+            strategyAwardVO = logicEntity.getStrategyAwardVO();
             log.info("决策树引擎[{}], treeId:{}, node:{}, code:{}", ruleTreeVO.getTreeName(), ruleTreeNode.getTreeId(), nextNode, ruleLogicCheckTypeVO.getInfo());
 
             nextNode = nextNode(ruleLogicCheckTypeVO.getCode(), ruleTreeNode.getTreeNodeLineVOList());
@@ -56,7 +55,7 @@ public class DecisionTreeEngine implements IDecisionTreeEngine {
         }
 
         // 返回最终结果
-        return strategyAwardData;
+        return strategyAwardVO;
     }
 
     private String nextNode(String matterValue, List<RuleTreeNodeLineVO> ruleTreeNodeLineVOList) {
