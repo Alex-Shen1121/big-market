@@ -245,4 +245,7 @@ public interface IRedisService {
      */
     <T> RBloomFilter<T> getBloomFilter(String key);
 
+    Long getAtomicLong(String key);
+
+    void setAtomicLong(String key, Integer value);
 }

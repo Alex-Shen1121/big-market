@@ -215,4 +215,13 @@ public class StrategyRepository implements IStrategyRepository {
         redisService.setValue(cacheKey, ruleTreeVODB);
         return ruleTreeVODB;
     }
+
+    @Override
+    public void cacheStrategyAwardCount(String cacheKey, Integer awardCount) {
+        Long cacheAwardCount = redisService.getAtomicLong(cacheKey);
+        if (null == cacheAwardCount)
+            return;
+
+        redisService.setAtomicLong(cacheKey, awardCount);
+    }
 }
