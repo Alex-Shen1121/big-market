@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import top.codingshen.domain.strategy.model.valobj.RuleTreeVO;
 import top.codingshen.domain.strategy.model.valobj.StrategyAwardRuleModelVO;
+import top.codingshen.domain.strategy.model.valobj.StrategyAwardStockKeyVO;
 import top.codingshen.domain.strategy.repository.IStrategyRepository;
 import top.codingshen.domain.strategy.service.AbstractRaffleStrategy;
 import top.codingshen.domain.strategy.service.armory.IStrategyDispatch;
@@ -11,6 +12,7 @@ import top.codingshen.domain.strategy.service.rule.chain.ILogicChain;
 import top.codingshen.domain.strategy.service.rule.chain.factory.DefaultChainFactory;
 import top.codingshen.domain.strategy.service.rule.tree.factory.DefaultTreeFactory;
 import top.codingshen.domain.strategy.service.rule.tree.factory.engine.IDecisionTreeEngine;
+import top.codingshen.types.common.Constants;
 
 /**
  * @ClassName DefaultRaffleStrategy
@@ -65,5 +67,15 @@ public class DefaultRaffleStrategy extends AbstractRaffleStrategy {
 
         IDecisionTreeEngine treeEngine = defaultTreeFactory.openLogicTree(ruleTreeVO);
         return treeEngine.process(userId, strategyId, awardId);
+    }
+
+    @Override
+    public StrategyAwardStockKeyVO takeQueueValue() {
+        return repository.takeQueueValue();
+    }
+
+    @Override
+    public void updateStrategyAwardStock(Long strategyId, Integer awardId) {
+        repository.updateStrategyAwardStock(strategyId, awardId);
     }
 }

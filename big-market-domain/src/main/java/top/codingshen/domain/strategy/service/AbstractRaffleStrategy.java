@@ -18,7 +18,7 @@ import top.codingshen.types.exception.AppException;
  * @Date 2024/3/5 - 14:06
  */
 @Slf4j
-public abstract class AbstractRaffleStrategy implements IRaffleStrategy {
+public abstract class AbstractRaffleStrategy implements IRaffleStrategy, IRaffleStock {
 
     // 策略仓储服务
     protected IStrategyRepository repository;

@@ -13,6 +13,6 @@ public class Constants {
         public static String STRATEGY_RATE_RANGE_KEY = "big_market:strategy_rate_range_key:";
         public static String RULE_TREE_VO_KEY = "big_market:rule_tree_vo_key:";
         public static String STRATEGY_AWARD_COUNT_KEY = "big_market:strategy_award_count_key:";
-        public static String STRATEGY_AWARD_COUNT_QUERY_KEY = "big_market:strategy_award_count_query_key:";
+        public static String STRATEGY_AWARD_COUNT_QUEUE_KEY = "big_market:strategy_award_count_queue_key:";
     }
 }
