@@ -43,7 +43,8 @@ public class IRaffleController implements IRaffleService {
 
 
     /**
-     * 策略装配接口 <br>
+     * 策略装配接口
+     * <br>
      * <a href="http://localhost:8091/api/v1/raffle/strategy_armory">/api/v1/raffle/strategy_armory</a>
      *
      * @param strategyId 策略 id
