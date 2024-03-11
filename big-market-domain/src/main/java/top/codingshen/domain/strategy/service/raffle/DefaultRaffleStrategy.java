@@ -2,17 +2,22 @@ package top.codingshen.domain.strategy.service.raffle;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import top.codingshen.domain.strategy.model.entity.StrategyAwardEntity;
 import top.codingshen.domain.strategy.model.valobj.RuleTreeVO;
 import top.codingshen.domain.strategy.model.valobj.StrategyAwardRuleModelVO;
 import top.codingshen.domain.strategy.model.valobj.StrategyAwardStockKeyVO;
 import top.codingshen.domain.strategy.repository.IStrategyRepository;
 import top.codingshen.domain.strategy.service.AbstractRaffleStrategy;
+import top.codingshen.domain.strategy.service.IRaffleAward;
+import top.codingshen.domain.strategy.service.IRaffleStock;
 import top.codingshen.domain.strategy.service.armory.IStrategyDispatch;
 import top.codingshen.domain.strategy.service.rule.chain.ILogicChain;
 import top.codingshen.domain.strategy.service.rule.chain.factory.DefaultChainFactory;
 import top.codingshen.domain.strategy.service.rule.tree.factory.DefaultTreeFactory;
 import top.codingshen.domain.strategy.service.rule.tree.factory.engine.IDecisionTreeEngine;
 import top.codingshen.types.common.Constants;
+
+import java.util.List;
 
 /**
  * @ClassName DefaultRaffleStrategy
@@ -22,7 +27,7 @@ import top.codingshen.types.common.Constants;
  */
 @Slf4j
 @Service
-public class DefaultRaffleStrategy extends AbstractRaffleStrategy {
+public class DefaultRaffleStrategy extends AbstractRaffleStrategy implements IRaffleAward, IRaffleStock {
 
     public DefaultRaffleStrategy(IStrategyRepository repository, IStrategyDispatch strategyDispatch, DefaultChainFactory defaultChainFactory, DefaultTreeFactory defaultTreeFactory) {
         super(repository, strategyDispatch, defaultChainFactory, defaultTreeFactory);
@@ -77,5 +82,16 @@ public class DefaultRaffleStrategy extends AbstractRaffleStrategy {
     @Override
     public void updateStrategyAwardStock(Long strategyId, Integer awardId) {
         repository.updateStrategyAwardStock(strategyId, awardId);
+    }
+
+    /**
+     * 根据策略ID查询抽奖奖品列表配置
+     *
+     * @param strategyId 策略ID
+     * @return 奖品列表
+     */
+    @Override
+    public List<StrategyAwardEntity> queryRaffleStrategyAwardList(Long strategyId) {
+        return repository.queryStrategyAwardList(strategyId);
     }
 }

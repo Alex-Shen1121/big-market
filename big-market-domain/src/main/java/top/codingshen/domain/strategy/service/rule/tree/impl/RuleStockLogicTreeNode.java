@@ -34,7 +34,7 @@ public class RuleStockLogicTreeNode implements ILogicTreeNode {
 
         // 扣减成功
         if (success) {
-            log.info("规则过滤-库存扣减-成功 userId:{} strategyId:{} awardId:{}", userId, strategyId, awardId);
+            log.info("规则过滤 - 库存扣减成功 userId:{} strategyId:{} awardId:{}", userId, strategyId, awardId);
 
             // 写入延迟队列, 延迟消费更新数据库记录
             // [在 trigger 的 job: UpdateAwardStockJob 下消费队列, 更新数据库记录]
@@ -54,7 +54,7 @@ public class RuleStockLogicTreeNode implements ILogicTreeNode {
 
 
         // 如果库存不足，则直接返回放行
-        log.warn("规则过滤-库存扣减-告警，库存不足。userId:{} strategyId:{} awardId:{}", userId, strategyId, awardId);
+        log.warn("规则过滤 - 库存扣减告警，库存不足。userId:{} strategyId:{} awardId:{}", userId, strategyId, awardId);
         return DefaultTreeFactory.TreeActionEntity.builder()
                 .ruleLogicCheckType(RuleLogicCheckTypeVO.ALLOW)
                 .build();

@@ -13,6 +13,7 @@
         <module>big-market-trigger</module>
         <module>big-market-infrastructure</module>
         <module>big-market-types</module>
+        <module>big-market-api</module>
     </modules>
 
     <properties>
@@ -25,10 +26,10 @@
 
     <developers>
         <developer>
-            <name>xiaofuge</name>
-            <email>184172133@qq.com</email>
-            <organization>fuzhengwei</organization>
-            <organizationUrl>https://github.com/fuzhengwei</organizationUrl>
+            <name>AlexShen</name>
+            <email>alex_shency@outlook.com</email>
+            <organization>codingshen</organization>
+            <organizationUrl>https://www.codingshen.top</organizationUrl>
         </developer>
     </developers>
 

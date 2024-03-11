@@ -73,6 +73,7 @@ public interface IStrategyRepository {
     StrategyRuleEntity queryStrategyRule(Long strategyId, String ruleModel);
 
     String queryStrategyRuleValue(Long strategyId, Integer awardId, String ruleModel);
+
     String queryStrategyRuleValue(Long strategyId, String ruleModel);
 
     StrategyAwardRuleModelVO queryStrategyAwardRuleModelVO(Long strategyId, Integer awardId);
@@ -81,6 +82,7 @@ public interface IStrategyRepository {
 
     /**
      * 缓存奖品库存
+     *
      * @param cacheKey
      * @param awardCount
      */
@@ -93,4 +95,13 @@ public interface IStrategyRepository {
     StrategyAwardStockKeyVO takeQueueValue();
 
     void updateStrategyAwardStock(Long strategyId, Integer awardId);
+
+    /**
+     * 根据策略ID+奖品ID的唯一值组合，查询奖品信息
+     *
+     * @param strategyId 策略ID
+     * @param awardId    奖品ID
+     * @return 奖品信息
+     */
+    StrategyAwardEntity queryStrategyAwardEntity(Long strategyId, Integer awardId);
 }

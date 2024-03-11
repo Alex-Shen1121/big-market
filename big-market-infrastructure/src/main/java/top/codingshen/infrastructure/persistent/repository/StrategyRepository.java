@@ -13,6 +13,8 @@ import top.codingshen.infrastructure.persistent.dao.*;
 import top.codingshen.infrastructure.persistent.po.*;
 import top.codingshen.infrastructure.persistent.redis.IRedisService;
 import top.codingshen.types.common.Constants;
+import top.codingshen.types.enums.ResponseCode;
+import top.codingshen.types.exception.AppException;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
@@ -52,7 +54,7 @@ public class StrategyRepository implements IStrategyRepository {
 
     @Override
     public List<StrategyAwardEntity> queryStrategyAwardList(Long strategyId) {
-        String cacheKey = Constants.RedisKey.STRATEGY_AWARD_KEY + strategyId;
+        String cacheKey = Constants.RedisKey.STRATEGY_AWARD_LIST_KEY + strategyId;
 
         List<StrategyAwardEntity> strategyAwardEntities = redisService.getValue(cacheKey);
 
@@ -67,7 +69,16 @@ public class StrategyRepository implements IStrategyRepository {
 
         strategyAwardEntities = new ArrayList<>(strategyAwards.size());
         for (StrategyAwardPO strategyAward : strategyAwards) {
-            StrategyAwardEntity strategyAwardEntity = StrategyAwardEntity.builder().strategyId(strategyAward.getStrategyId()).awardId(strategyAward.getAwardId()).awardCount(strategyAward.getAwardCount()).awardCountSurplus(strategyAward.getAwardCountSurplus()).awardRate(strategyAward.getAwardRate()).build();
+            StrategyAwardEntity strategyAwardEntity = StrategyAwardEntity.builder()
+                    .strategyId(strategyAward.getStrategyId())
+                    .awardId(strategyAward.getAwardId())
+                    .awardCount(strategyAward.getAwardCount())
+                    .awardCountSurplus(strategyAward.getAwardCountSurplus())
+                    .awardRate(strategyAward.getAwardRate())
+                    .sort(strategyAward.getSort())
+                    .awardTitle(strategyAward.getAwardTitle())
+                    .awardSubtitle(strategyAward.getAwardSubtitle())
+                    .build();
             strategyAwardEntities.add(strategyAwardEntity);
         }
 
@@ -91,7 +102,11 @@ public class StrategyRepository implements IStrategyRepository {
 
     @Override
     public int getRateRange(String key) {
-        return redisService.getValue(Constants.RedisKey.STRATEGY_RATE_RANGE_KEY + key);
+        String cacheKey = Constants.RedisKey.STRATEGY_RATE_RANGE_KEY + key;
+        if (!redisService.isExists(cacheKey)) {
+            throw new AppException(ResponseCode.UN_ASSEMBLED_STRATEGY_ARMORY.getCode(), cacheKey + Constants.COLON + ResponseCode.UN_ASSEMBLED_STRATEGY_ARMORY.getInfo());
+        }
+        return redisService.getValue(cacheKey);
     }
 
     @Override
@@ -265,5 +280,38 @@ public class StrategyRepository implements IStrategyRepository {
         strategyAwardPO.setStrategyId(strategyId);
         strategyAwardPO.setAwardId(awardId);
         strategyAwardDao.updateStrategyAwardStock(strategyAwardPO);
+    }
+
+    @Override
+    public StrategyAwardEntity queryStrategyAwardEntity(Long strategyId, Integer awardId) {
+        // 优先从缓存获取
+        String cacheKey = Constants.RedisKey.STRATEGY_AWARD_KEY + strategyId + Constants.COLON + awardId;
+        StrategyAwardEntity strategyAwardEntity = redisService.getValue(cacheKey);
+        if (null != strategyAwardEntity)
+            return strategyAwardEntity;
+
+        // 查询数据
+        StrategyAwardPO strategyAwardReq = new StrategyAwardPO();
+        strategyAwardReq.setStrategyId(strategyId);
+        strategyAwardReq.setAwardId(awardId);
+        StrategyAwardPO strategyAwardRes = strategyAwardDao.queryStrategyAward(strategyAwardReq);
+
+        // 转换数据
+        strategyAwardEntity = StrategyAwardEntity.builder()
+                .strategyId(strategyAwardRes.getStrategyId())
+                .awardId(strategyAwardRes.getAwardId())
+                .awardTitle(strategyAwardRes.getAwardTitle())
+                .awardSubtitle(strategyAwardRes.getAwardSubtitle())
+                .awardCount(strategyAwardRes.getAwardCount())
+                .awardCountSurplus(strategyAwardRes.getAwardCountSurplus())
+                .awardRate(strategyAwardRes.getAwardRate())
+                .sort(strategyAwardRes.getSort())
+                .build();
+
+        // 缓存结果
+        redisService.setValue(cacheKey, strategyAwardEntity);
+
+        // 返回数据
+        return strategyAwardEntity;
     }
 }
