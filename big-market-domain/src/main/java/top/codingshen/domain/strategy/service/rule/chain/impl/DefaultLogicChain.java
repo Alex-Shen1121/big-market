@@ -1,6 +1,8 @@
 package top.codingshen.domain.strategy.service.rule.chain.impl;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import top.codingshen.domain.strategy.service.armory.IStrategyDispatch;
 import top.codingshen.domain.strategy.service.rule.chain.AbstractLogicChain;
@@ -15,7 +17,8 @@ import javax.annotation.Resource;
  * @Date 2024/3/6 - 23:12
  */
 @Slf4j
-@Component("default")
+@Component("rule_default")
+@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class DefaultLogicChain extends AbstractLogicChain {
 
     @Resource

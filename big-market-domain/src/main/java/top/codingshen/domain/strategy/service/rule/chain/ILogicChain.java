@@ -8,7 +8,7 @@ import top.codingshen.domain.strategy.service.rule.chain.factory.DefaultChainFac
  * @Author alex_shen
  * @Date 2024/3/6 - 22:51
  */
-public interface ILogicChain extends ILogicChainArmory {
+public interface ILogicChain extends ILogicChainArmory, Cloneable {
 
     /**
      * 责任链接口
