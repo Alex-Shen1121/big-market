@@ -167,6 +167,7 @@ public class IRaffleController implements IRaffleService {
     @RequestMapping(value = "test/getRandomAwardId", method = RequestMethod.POST)
     @Override
     public Response<RaffleResponseDTO> test_getRandomAwardId(@RequestBody RaffleRequestDTO requestDTO) {
+        log.info("前置抽奖 随机抽奖开始 strategyId: {}", requestDTO.getStrategyId());
         Integer awardId = strategyDispatch.getRandomAwardId(requestDTO.getStrategyId());
         return Response.<RaffleResponseDTO>builder()
                 .code(ResponseCode.SUCCESS.getCode())
