@@ -1,6 +1,5 @@
 package top.codingshen.trigger.api;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import top.codingshen.trigger.api.dto.RaffleAwardListRequestDTO;
 import top.codingshen.trigger.api.dto.RaffleAwardListResponseDTO;
 import top.codingshen.trigger.api.dto.RaffleRequestDTO;
@@ -39,4 +38,12 @@ public interface IRaffleService {
      * @return 抽奖结果
      */
     Response<RaffleResponseDTO> randomRaffle(RaffleRequestDTO requestDTO);
+
+    /**
+     * 测试 单一前置抽奖接口
+     *
+     * @param requestDTO requestDTO – 请求参数
+     * @return 抽奖结果
+     */
+    Response<RaffleResponseDTO> test_getRandomAwardId(RaffleRequestDTO requestDTO);
 }
