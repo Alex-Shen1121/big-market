@@ -32,7 +32,7 @@ public interface IStrategyRepository {
      * @param rateRange                            概率范围
      * @param shuffleStrategyAwardSearchRateTables 策略奖品查询概率表
      */
-    void storeStrategyAwardSearchRateTable(String key, Integer rateRange, Map<Integer, Integer> shuffleStrategyAwardSearchRateTables);
+    void storeStrategyAwardSearchRateTable(String key, Integer rateRange, Map<String, Integer> shuffleStrategyAwardSearchRateTables);
 
     /**
      * 根据策略 id 获取概率范围
@@ -104,4 +104,6 @@ public interface IStrategyRepository {
      * @return 奖品信息
      */
     StrategyAwardEntity queryStrategyAwardEntity(Long strategyId, Integer awardId);
+
+    Map<String, Integer> getStrategyAwardRateTable(Long strategyId);
 }

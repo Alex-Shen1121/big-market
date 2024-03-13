@@ -55,8 +55,7 @@ public class StrategyArmoryDispatch implements IStrategyArmory, IStrategyDispatc
         StrategyEntity strategyEntity = repository.queryStrategyEntityByStrategyId(strategyId);
         String ruleWeight = strategyEntity.getRuleWeight();
         // 检测 strategy_id 策略是否配置了rule_weight 规则
-        if (null == ruleWeight)
-            return true;
+        if (null == ruleWeight) return true;
 
         // 查询该策略下 rule_weight 具体策略规则
         StrategyRuleEntity strategyRuleEntity = repository.queryStrategyRule(strategyId, ruleWeight);
@@ -83,49 +82,62 @@ public class StrategyArmoryDispatch implements IStrategyArmory, IStrategyDispatc
     }
 
     private void assembleLotteryStrategy(String key, List<StrategyAwardEntity> strategyAwardEntities) {
+
         // 1. 获取最小概率值
-        BigDecimal minAwardRate = strategyAwardEntities.stream().map(StrategyAwardEntity::getAwardRate).min(BigDecimal::compareTo).orElse(BigDecimal.ZERO);
+        BigDecimal minAwardRate = strategyAwardEntities.stream().map(StrategyAwardEntity::getAwardRate).min(BigDecimal::compareTo).orElse(BigDecimal.ZERO).stripTrailingZeros();
 
         // 2. 获取概率值的总和
         BigDecimal totalAwardRate = strategyAwardEntities.stream().map(StrategyAwardEntity::getAwardRate).reduce(BigDecimal.ZERO, BigDecimal::add);
 
-        // 3. 利用 总和/最小值 获取概率范围, 百分位/千分位/万分位
-        BigDecimal rateRange = totalAwardRate.divide(minAwardRate, 0, RoundingMode.CEILING);
+        int powerOfTen = findPowerOfTenForConversion(minAwardRate);
 
-        // todo: 计算有 bug, 会爆空间
-        // 4. 生成策略奖品概率查找表「这里指需要在list集合中，存放上对应的奖品占位即可，占位越多等于概率越高」
-        ArrayList<Integer> strategyAwardSearchRateTables = new ArrayList<>(rateRange.intValue());
+        // 6. 生成抽奖 Map 集合, key = rateRange 范围内的数, value = 对应的 award
+        Map<String, Integer> shuffleStrategyAwardSearchRateTables = new HashMap<>();
+
+        int probability = 0;
+
+        // 5. 对存储的奖品进行乱序操作
+        Collections.shuffle(strategyAwardEntities);
+
         for (StrategyAwardEntity strategyAward : strategyAwardEntities) {
             Integer awardId = strategyAward.getAwardId();
             BigDecimal awardRate = strategyAward.getAwardRate();
 
-            // 计算出每个概率值需要存放到查找表的数量，循环填充
-            // eg. rateRange 概率范围 = [0, 1000]
-            // awardRate = 80%, 则 rateRange * awardRate = 1000 * 0.8 = 800 的范围都是对应这个策略
-            for (int i = 0; i < rateRange.multiply(awardRate).setScale(0, RoundingMode.CEILING).intValue(); i++) {
-                strategyAwardSearchRateTables.add(awardId);
-            }
-        }
+            int processedAwardRate = awardRate.multiply(BigDecimal.valueOf(powerOfTen)).intValue();
 
-        // 5. 对存储的奖品进行乱序操作
-        Collections.shuffle(strategyAwardSearchRateTables);
+            shuffleStrategyAwardSearchRateTables.put(String.valueOf(probability) + Constants.SPLIT + String.valueOf(probability + processedAwardRate), awardId);
 
-        // 6. 生成抽奖 Map 集合, key = rateRange 范围内的数, value = 对应的 award
-        Map<Integer, Integer> shuffleStrategyAwardSearchRateTables = new HashMap<>();
-        for (int i = 0; i < strategyAwardSearchRateTables.size(); i++) {
-            shuffleStrategyAwardSearchRateTables.put(i, strategyAwardSearchRateTables.get(i));
+            probability += processedAwardRate;
         }
 
         // 7. 将策略奖品查询概率表存放到 Redis 中
-        repository.storeStrategyAwardSearchRateTable(key, shuffleStrategyAwardSearchRateTables.size(), shuffleStrategyAwardSearchRateTables);
+        repository.storeStrategyAwardSearchRateTable(key, totalAwardRate.multiply(BigDecimal.valueOf(powerOfTen)).intValue(), shuffleStrategyAwardSearchRateTables);
+    }
+
+    private int findPowerOfTenForConversion(BigDecimal minAwardRate) {
+        int maxDecimalPlaces = 0;
+
+        String numAsString = String.valueOf(minAwardRate);
+        int decimalPlaces = numAsString.length() - numAsString.indexOf('.') - 1;
+        maxDecimalPlaces = Math.max(maxDecimalPlaces, decimalPlaces);
+
+        return (int) Math.pow(10, maxDecimalPlaces);
     }
 
     @Override
     public Integer getRandomAwardId(Long strategyId) {
         // 分布式部署下, 不一定为当前应用做的策略装配, 也就是值不一定保存到本应用, 而是分布式应用, 所以需要从 redis 中获取
         int rateRange = repository.getRateRange(strategyId);
+        Map<String, Integer> shuffleStrategyAwardSearchRateTables = repository.getStrategyAwardRateTable(strategyId);
+        int randomNumber = new SecureRandom().nextInt(rateRange);
+        for (String key : shuffleStrategyAwardSearchRateTables.keySet()) {
+            String[] range = key.split(Constants.SPLIT);
+            if (randomNumber >= Integer.parseInt(range[0]) && randomNumber < Integer.parseInt(range[1])) {
+                return shuffleStrategyAwardSearchRateTables.get(key);
+            }
+        }
         // 通过生成的随机值, 获取概率值奖品查找表的结果
-        return repository.getStrategyAwardAssemble(strategyId, new SecureRandom().nextInt(rateRange));
+        throw new RuntimeException("抽奖策额装配错误, 请重新装配");
     }
 
     /**

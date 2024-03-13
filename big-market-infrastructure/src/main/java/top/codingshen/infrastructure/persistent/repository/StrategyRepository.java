@@ -69,16 +69,7 @@ public class StrategyRepository implements IStrategyRepository {
 
         strategyAwardEntities = new ArrayList<>(strategyAwards.size());
         for (StrategyAwardPO strategyAward : strategyAwards) {
-            StrategyAwardEntity strategyAwardEntity = StrategyAwardEntity.builder()
-                    .strategyId(strategyAward.getStrategyId())
-                    .awardId(strategyAward.getAwardId())
-                    .awardCount(strategyAward.getAwardCount())
-                    .awardCountSurplus(strategyAward.getAwardCountSurplus())
-                    .awardRate(strategyAward.getAwardRate())
-                    .sort(strategyAward.getSort())
-                    .awardTitle(strategyAward.getAwardTitle())
-                    .awardSubtitle(strategyAward.getAwardSubtitle())
-                    .build();
+            StrategyAwardEntity strategyAwardEntity = StrategyAwardEntity.builder().strategyId(strategyAward.getStrategyId()).awardId(strategyAward.getAwardId()).awardCount(strategyAward.getAwardCount()).awardCountSurplus(strategyAward.getAwardCountSurplus()).awardRate(strategyAward.getAwardRate()).sort(strategyAward.getSort()).awardTitle(strategyAward.getAwardTitle()).awardSubtitle(strategyAward.getAwardSubtitle()).build();
             strategyAwardEntities.add(strategyAwardEntity);
         }
 
@@ -87,11 +78,11 @@ public class StrategyRepository implements IStrategyRepository {
     }
 
     @Override
-    public void storeStrategyAwardSearchRateTable(String key, Integer rateRange, Map<Integer, Integer> shuffleStrategyAwardSearchRateTables) {
+    public void storeStrategyAwardSearchRateTable(String key, Integer rateRange, Map<String, Integer> shuffleStrategyAwardSearchRateTables) {
         // 1. 存储抽奖策略范围值, 如 10000, 用于生成 10000 以内的随机数
         redisService.setValue(Constants.RedisKey.STRATEGY_RATE_RANGE_KEY + key, rateRange);
         // 2. 存储概率查找表
-        Map<Integer, Integer> cacheRateTable = redisService.getMap(Constants.RedisKey.STRATEGY_RATE_TABLE_KEY + key);
+        Map<String, Integer> cacheRateTable = redisService.getMap(Constants.RedisKey.STRATEGY_RATE_TABLE_KEY + key);
         cacheRateTable.putAll(shuffleStrategyAwardSearchRateTables);
     }
 
@@ -175,9 +166,7 @@ public class StrategyRepository implements IStrategyRepository {
         strategyAwardPO.setStrategyId(strategyId);
         strategyAwardPO.setAwardId(awardId);
         String ruleModels = strategyAwardDao.queryStrategyAwardRuleModels(strategyAwardPO);
-        return StrategyAwardRuleModelVO.builder()
-                .ruleModels(ruleModels)
-                .build();
+        return StrategyAwardRuleModelVO.builder().ruleModels(ruleModels).build();
     }
 
     @Override
@@ -196,13 +185,7 @@ public class StrategyRepository implements IStrategyRepository {
         // 1. tree node line 转换Map结构
         Map<String, List<RuleTreeNodeLineVO>> ruleTreeNodeLineMap = new HashMap<>();
         for (RuleTreeNodeLinePO ruleTreeNodeLinePO : ruleTreeNodeLinePOS) {
-            RuleTreeNodeLineVO ruleTreeNodeLineVO = RuleTreeNodeLineVO.builder()
-                    .treeId(ruleTreeNodeLinePO.getTreeId())
-                    .ruleNodeFrom(ruleTreeNodeLinePO.getRuleNodeFrom())
-                    .ruleNodeTo(ruleTreeNodeLinePO.getRuleNodeTo())
-                    .ruleLimitType(RuleLimitTypeVO.valueOf(ruleTreeNodeLinePO.getRuleLimitType()))
-                    .ruleLimitValue(RuleLogicCheckTypeVO.valueOf(ruleTreeNodeLinePO.getRuleLimitValue()))
-                    .build();
+            RuleTreeNodeLineVO ruleTreeNodeLineVO = RuleTreeNodeLineVO.builder().treeId(ruleTreeNodeLinePO.getTreeId()).ruleNodeFrom(ruleTreeNodeLinePO.getRuleNodeFrom()).ruleNodeTo(ruleTreeNodeLinePO.getRuleNodeTo()).ruleLimitType(RuleLimitTypeVO.valueOf(ruleTreeNodeLinePO.getRuleLimitType())).ruleLimitValue(RuleLogicCheckTypeVO.valueOf(ruleTreeNodeLinePO.getRuleLimitValue())).build();
 
             List<RuleTreeNodeLineVO> ruleTreeNodeLineVOList = ruleTreeNodeLineMap.computeIfAbsent(ruleTreeNodeLinePO.getRuleNodeFrom(), k -> new ArrayList<>());
             ruleTreeNodeLineVOList.add(ruleTreeNodeLineVO);
@@ -211,24 +194,12 @@ public class StrategyRepository implements IStrategyRepository {
         // 2. tree node 转换为Map结构
         Map<String, RuleTreeNodeVO> treeNodeMap = new HashMap<>();
         for (RuleTreeNodePO ruleTreeNode : ruleTreeNodePOS) {
-            RuleTreeNodeVO ruleTreeNodeVO = RuleTreeNodeVO.builder()
-                    .treeId(ruleTreeNode.getTreeId())
-                    .ruleKey(ruleTreeNode.getRuleKey())
-                    .ruleDesc(ruleTreeNode.getRuleDesc())
-                    .ruleValue(ruleTreeNode.getRuleValue())
-                    .treeNodeLineVOList(ruleTreeNodeLineMap.get(ruleTreeNode.getRuleKey()))
-                    .build();
+            RuleTreeNodeVO ruleTreeNodeVO = RuleTreeNodeVO.builder().treeId(ruleTreeNode.getTreeId()).ruleKey(ruleTreeNode.getRuleKey()).ruleDesc(ruleTreeNode.getRuleDesc()).ruleValue(ruleTreeNode.getRuleValue()).treeNodeLineVOList(ruleTreeNodeLineMap.get(ruleTreeNode.getRuleKey())).build();
             treeNodeMap.put(ruleTreeNode.getRuleKey(), ruleTreeNodeVO);
         }
 
         // 3. 构建 Rule Tree
-        RuleTreeVO ruleTreeVODB = RuleTreeVO.builder()
-                .treeId(ruleTreePO.getTreeId())
-                .treeName(ruleTreePO.getTreeName())
-                .treeDesc(ruleTreePO.getTreeDesc())
-                .treeRootRuleNode(ruleTreePO.getTreeRootRuleKey())
-                .treeNodeMap(treeNodeMap)
-                .build();
+        RuleTreeVO ruleTreeVODB = RuleTreeVO.builder().treeId(ruleTreePO.getTreeId()).treeName(ruleTreePO.getTreeName()).treeDesc(ruleTreePO.getTreeDesc()).treeRootRuleNode(ruleTreePO.getTreeRootRuleKey()).treeNodeMap(treeNodeMap).build();
 
         redisService.setValue(cacheKey, ruleTreeVODB);
         return ruleTreeVODB;
@@ -237,8 +208,7 @@ public class StrategyRepository implements IStrategyRepository {
     @Override
     public void cacheStrategyAwardCount(String cacheKey, Integer awardCount) {
         Long cacheAwardCount = redisService.getAtomicLong(cacheKey);
-        if (null == cacheAwardCount)
-            return;
+        if (null == cacheAwardCount) return;
 
         redisService.setAtomicLong(cacheKey, awardCount);
     }
@@ -287,8 +257,7 @@ public class StrategyRepository implements IStrategyRepository {
         // 优先从缓存获取
         String cacheKey = Constants.RedisKey.STRATEGY_AWARD_KEY + strategyId + Constants.COLON + awardId;
         StrategyAwardEntity strategyAwardEntity = redisService.getValue(cacheKey);
-        if (null != strategyAwardEntity)
-            return strategyAwardEntity;
+        if (null != strategyAwardEntity) return strategyAwardEntity;
 
         // 查询数据
         StrategyAwardPO strategyAwardReq = new StrategyAwardPO();
@@ -297,21 +266,17 @@ public class StrategyRepository implements IStrategyRepository {
         StrategyAwardPO strategyAwardRes = strategyAwardDao.queryStrategyAward(strategyAwardReq);
 
         // 转换数据
-        strategyAwardEntity = StrategyAwardEntity.builder()
-                .strategyId(strategyAwardRes.getStrategyId())
-                .awardId(strategyAwardRes.getAwardId())
-                .awardTitle(strategyAwardRes.getAwardTitle())
-                .awardSubtitle(strategyAwardRes.getAwardSubtitle())
-                .awardCount(strategyAwardRes.getAwardCount())
-                .awardCountSurplus(strategyAwardRes.getAwardCountSurplus())
-                .awardRate(strategyAwardRes.getAwardRate())
-                .sort(strategyAwardRes.getSort())
-                .build();
+        strategyAwardEntity = StrategyAwardEntity.builder().strategyId(strategyAwardRes.getStrategyId()).awardId(strategyAwardRes.getAwardId()).awardTitle(strategyAwardRes.getAwardTitle()).awardSubtitle(strategyAwardRes.getAwardSubtitle()).awardCount(strategyAwardRes.getAwardCount()).awardCountSurplus(strategyAwardRes.getAwardCountSurplus()).awardRate(strategyAwardRes.getAwardRate()).sort(strategyAwardRes.getSort()).build();
 
         // 缓存结果
         redisService.setValue(cacheKey, strategyAwardEntity);
 
         // 返回数据
         return strategyAwardEntity;
+    }
+
+    @Override
+    public Map<String, Integer> getStrategyAwardRateTable(Long strategyId) {
+        return redisService.getMap(Constants.RedisKey.STRATEGY_RATE_TABLE_KEY + strategyId);
     }
 }

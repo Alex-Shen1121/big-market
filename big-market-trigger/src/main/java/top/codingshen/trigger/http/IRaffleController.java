@@ -9,6 +9,7 @@ import top.codingshen.domain.strategy.model.entity.StrategyAwardEntity;
 import top.codingshen.domain.strategy.service.IRaffleAward;
 import top.codingshen.domain.strategy.service.IRaffleStrategy;
 import top.codingshen.domain.strategy.service.armory.IStrategyArmory;
+import top.codingshen.domain.strategy.service.armory.IStrategyDispatch;
 import top.codingshen.trigger.api.IRaffleService;
 import top.codingshen.trigger.api.dto.RaffleAwardListRequestDTO;
 import top.codingshen.trigger.api.dto.RaffleAwardListResponseDTO;
@@ -36,6 +37,8 @@ public class IRaffleController implements IRaffleService {
 
     @Resource
     private IStrategyArmory strategyArmory;
+    @Resource
+    private IStrategyDispatch strategyDispatch;
     @Resource
     private IRaffleAward raffleAward;
     @Resource
@@ -153,5 +156,23 @@ public class IRaffleController implements IRaffleService {
                     .info(ResponseCode.UN_ERROR.getInfo())
                     .build();
         }
+
+    }
+
+    /**
+     * 测试 单一前置抽奖接口
+     *
+     * @param requestDTO requestDTO – 请求参数
+     * @return 抽奖结果
+     */
+    @RequestMapping(value = "test/getRandomAwardId", method = RequestMethod.POST)
+    @Override
+    public Response<RaffleResponseDTO> test_getRandomAwardId(@RequestBody RaffleRequestDTO requestDTO) {
+        Integer awardId = strategyDispatch.getRandomAwardId(requestDTO.getStrategyId());
+        return Response.<RaffleResponseDTO>builder()
+                .code(ResponseCode.SUCCESS.getCode())
+                .info(ResponseCode.SUCCESS.getInfo())
+                .data(RaffleResponseDTO.builder().awardId(awardId).build())
+                .build();
     }
 }
