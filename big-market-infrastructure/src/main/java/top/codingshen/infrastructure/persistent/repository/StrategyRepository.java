@@ -246,24 +246,42 @@ public class StrategyRepository implements IStrategyRepository {
 
     @Override
     public Boolean subtractionAwardStock(String cacheKey) {
+        RLock lock = redisService.getLock(cacheKey + Constants.COLON + "lock");
+        // 尝试获取锁，最多等待1秒，锁自动释放时间3秒
+        boolean isLock;
         try {
-            RLock lock = redisService.getLock(cacheKey + Constants.COLON + "lock");
-            lock.lock();
-            long surplus = redisService.decr(cacheKey);
-
-            if (surplus < 0) {
-                redisService.setValue(cacheKey, 0);
-                lock.unlock();
-                log.error("奖品库存不足 cacheKey:{}", cacheKey);
-                return false;
-            }
-
-            lock.unlock();
-            return true;
+            isLock = lock.tryLock(1, 3, TimeUnit.SECONDS);
         } catch (Exception e) {
-            log.info("获取库存锁失败 cacheKey:{}", cacheKey);
-            return false;
+            throw new RuntimeException(e);
         }
+
+        if (isLock) {
+            try {
+                // 先检查库存量，避免库存成负数
+                Integer stock = redisService.getValue(cacheKey);
+                if (stock <= 0) {
+                    // 库存不足
+                    log.error("奖品库存不足 cacheKey:{}", cacheKey);
+                    return false;
+                }
+                // 减少库存
+                long surplus = redisService.decr(cacheKey);
+
+                // 额外的安全检查，理论上不会执行到这里
+                if (surplus < 0) {
+                    redisService.setValue(cacheKey, 0);
+                    log.error("奖品库存不足，修正为0 cacheKey:{}", cacheKey);
+                    return false;
+                }
+                return true;
+            } finally {
+                // 检查锁是否由当前线程持有
+                if (lock.isLocked() && lock.isHeldByCurrentThread()) {
+                    lock.unlock();
+                }
+            }
+        }
+        return false;
     }
 
     @Override
