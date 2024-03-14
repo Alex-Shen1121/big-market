@@ -3,6 +3,7 @@ package top.codingshen.infrastructure.persistent.repository;
 import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.RBlockingQueue;
 import org.redisson.api.RDelayedQueue;
+import org.redisson.api.RLock;
 import org.springframework.stereotype.Service;
 import top.codingshen.domain.strategy.model.entity.StrategyAwardEntity;
 import top.codingshen.domain.strategy.model.entity.StrategyEntity;
@@ -245,18 +246,24 @@ public class StrategyRepository implements IStrategyRepository {
 
     @Override
     public Boolean subtractionAwardStock(String cacheKey) {
-        long surplus = redisService.decr(cacheKey);
-        if (surplus < 0) {
-            redisService.setValue(cacheKey, 0);
+        try {
+            RLock lock = redisService.getLock(cacheKey + Constants.COLON + "lock");
+            lock.lock();
+            long surplus = redisService.decr(cacheKey);
+
+            if (surplus < 0) {
+                redisService.setValue(cacheKey, 0);
+                lock.unlock();
+                log.error("奖品库存不足 cacheKey:{}", cacheKey);
+                return false;
+            }
+
+            lock.unlock();
+            return true;
+        } catch (Exception e) {
+            log.info("获取库存锁失败 cacheKey:{}", cacheKey);
             return false;
         }
-
-        String lockKey = cacheKey + Constants.COLON + surplus;
-        Boolean lock = redisService.setNx(lockKey);
-        if (!lock) {
-            log.info("策略奖品库存加锁失败 {}", lockKey);
-        }
-        return lock;
     }
 
     @Override
