@@ -1,8 +1,6 @@
 package top.codingshen.domain.activity.service;
 
 import org.springframework.stereotype.Service;
-import top.codingshen.domain.activity.model.entity.ActivityOrderEntity;
-import top.codingshen.domain.activity.model.entity.ActivityShopCartEntity;
 import top.codingshen.domain.activity.repository.IActivityRepository;
 
 /**

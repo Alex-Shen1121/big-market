@@ -12,7 +12,6 @@ import top.codingshen.domain.strategy.service.armory.IStrategyArmory;
 import top.codingshen.domain.strategy.service.rule.chain.ILogicChain;
 import top.codingshen.domain.strategy.service.rule.chain.factory.DefaultChainFactory;
 import top.codingshen.domain.strategy.service.rule.chain.impl.RuleWeightLogicChain;
-import top.codingshen.domain.strategy.service.rule.tree.factory.DefaultTreeFactory;
 
 import javax.annotation.Resource;
 
