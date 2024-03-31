@@ -1,4 +1,4 @@
-package top.codingshen.test.domain;
+package top.codingshen.test.domain.strategy;
 
 import com.alibaba.fastjson2.JSON;
 import lombok.extern.slf4j.Slf4j;
