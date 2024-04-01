@@ -15,7 +15,10 @@ public class RaffleActivityOrderPO {
      * 自增ID
      */
     private Long id;
-
+    /**
+     * sku
+     */
+    private Long sku;
     /**
      * 用户ID
      */
@@ -46,7 +49,10 @@ public class RaffleActivityOrderPO {
      */
     private Date orderTime;
 
-
+    /**
+     * 业务仿重ID - 外部透传的，确保幂等
+     */
+    private String outBusinessNo;
     /**
      * 总次数
      */

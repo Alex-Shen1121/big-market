@@ -1,5 +1,6 @@
 package top.codingshen.domain.activity.repository;
 
+import top.codingshen.domain.activity.model.aggregate.CreateOrderAggregate;
 import top.codingshen.domain.activity.model.entity.ActivityCountEntity;
 import top.codingshen.domain.activity.model.entity.ActivityEntity;
 import top.codingshen.domain.activity.model.entity.ActivitySkuEntity;
@@ -19,4 +20,5 @@ public interface IActivityRepository {
 
     ActivityCountEntity queryRaffleActivityCountByActivityCountId(Long activityCountId);
 
+    void doSaveOrder(CreateOrderAggregate createOrderAggregate);
 }
