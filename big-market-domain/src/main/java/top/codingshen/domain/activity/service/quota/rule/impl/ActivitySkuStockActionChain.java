@@ -1,4 +1,4 @@
-package top.codingshen.domain.activity.service.rule.impl;
+package top.codingshen.domain.activity.service.quota.rule.impl;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -8,7 +8,7 @@ import top.codingshen.domain.activity.model.entity.ActivitySkuEntity;
 import top.codingshen.domain.activity.model.valobj.ActivitySkuStockKeyVO;
 import top.codingshen.domain.activity.repository.IActivityRepository;
 import top.codingshen.domain.activity.service.armory.IActivityDispatch;
-import top.codingshen.domain.activity.service.rule.AbstractActionChain;
+import top.codingshen.domain.activity.service.quota.rule.AbstractActionChain;
 import top.codingshen.types.enums.ResponseCode;
 import top.codingshen.types.exception.AppException;
 

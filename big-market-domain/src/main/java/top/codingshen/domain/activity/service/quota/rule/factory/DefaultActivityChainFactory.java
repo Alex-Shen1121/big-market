@@ -1,9 +1,9 @@
-package top.codingshen.domain.activity.service.rule.factory;
+package top.codingshen.domain.activity.service.quota.rule.factory;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.stereotype.Service;
-import top.codingshen.domain.activity.service.rule.IActionChain;
+import top.codingshen.domain.activity.service.quota.rule.IActionChain;
 
 import java.util.Map;
 

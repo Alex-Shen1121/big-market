@@ -6,7 +6,7 @@ import top.codingshen.domain.activity.model.valobj.ActivitySkuStockKeyVO;
  * @description 活动sku库存处理接口
  * @create 2024-03-30 09:55
  */
-public interface ISkuStock {
+public interface IRaffleActivitySkuStockService {
 
     /**
      * 获取活动sku库存消耗队列

@@ -5,12 +5,12 @@ import top.codingshen.domain.activity.model.entity.ActivityShopCartEntity;
 import top.codingshen.domain.activity.model.entity.SkuRechargeEntity;
 
 /**
- * @ClassName IRaffleOrder
+ * @ClassName IRaffleActivityAccountQuotaService
  * @Description 抽奖活动订单接口
  * @Author alex_shen
  * @Date 2024/3/31 - 17:36
  */
-public interface IRaffleOrder {
+public interface IRaffleActivityAccountQuotaService {
 
     /**
      * 以 sku 创建抽奖活动订单, 获取参与抽奖资格(可消耗次数)
@@ -18,6 +18,7 @@ public interface IRaffleOrder {
      * @param activityShopCartEntity 活动 sku 实体, 通过 sku 领取活动
      * @return 活动参与记录实体
      */
+    @Deprecated
     ActivityOrderEntity createRaffleActivityOrder(ActivityShopCartEntity activityShopCartEntity);
 
 
@@ -30,5 +31,5 @@ public interface IRaffleOrder {
      * @param skuRechargeEntity 活动商品充值实体对象
      * @return 活动ID
      */
-    String createSkuRechargeOrder(SkuRechargeEntity skuRechargeEntity);
+    String createOrder(SkuRechargeEntity skuRechargeEntity);
 }

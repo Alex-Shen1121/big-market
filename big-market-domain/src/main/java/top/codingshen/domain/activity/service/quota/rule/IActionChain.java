@@ -1,4 +1,4 @@
-package top.codingshen.domain.activity.service.rule;
+package top.codingshen.domain.activity.service.quota.rule;
 
 import top.codingshen.domain.activity.model.entity.ActivityCountEntity;
 import top.codingshen.domain.activity.model.entity.ActivityEntity;

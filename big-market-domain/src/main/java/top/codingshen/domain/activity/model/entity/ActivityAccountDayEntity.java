@@ -1,4 +1,4 @@
-package top.codingshen.infrastructure.persistent.po;
+package top.codingshen.domain.activity.model.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -8,17 +8,15 @@ import lombok.NoArgsConstructor;
 import java.util.Date;
 
 /**
- * @description 抽奖活动账户表-日次数
+ * @description 抽奖活动账户表-日次数实体对象
  * @create 2024-04-03 15:28
  */
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Builder
-public class RaffleActivityAccountDayPO {
+public class ActivityAccountDayEntity {
 
-    /** 自增ID */
-    private String id;
     /** 用户ID */
     private String userId;
     /** 活动ID */
@@ -29,9 +27,5 @@ public class RaffleActivityAccountDayPO {
     private Integer dayCount;
     /** 日次数-剩余 */
     private Integer dayCountSurplus;
-    /** 创建时间 */
-    private Date createTime;
-    /** 更新时间 */
-    private Date updateTime;
 
 }

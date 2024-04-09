@@ -1,4 +1,4 @@
-package top.codingshen.domain.activity.service.rule;
+package top.codingshen.domain.activity.service.quota.rule;
 
 /**
  * @ClassName IActionChainArmory

@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import top.codingshen.domain.activity.model.entity.ActivityAccountEntity;
 import top.codingshen.domain.activity.model.entity.ActivityOrderEntity;
 
 /**
@@ -15,7 +14,7 @@ import top.codingshen.domain.activity.model.entity.ActivityOrderEntity;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class CreateOrderAggregate {
+public class CreateQuotaOrderAggregate {
 
 
     /**
