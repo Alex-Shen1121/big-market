@@ -27,6 +27,10 @@
             <artifactId>db-router-spring-boot-starter</artifactId>
             <version>1.0.2</version>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-amqp</artifactId>
+        </dependency>
         <!-- 系统模块 -->
         <dependency>
             <groupId>top.codingshen</groupId>

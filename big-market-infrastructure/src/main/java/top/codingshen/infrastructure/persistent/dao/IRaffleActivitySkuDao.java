@@ -13,4 +13,8 @@ import top.codingshen.infrastructure.persistent.po.RaffleActivitySkuPO;
 public interface IRaffleActivitySkuDao {
 
     RaffleActivitySkuPO queryActivitySku(Long sku);
+
+    void updateActivitySkuStock(Long sku);
+
+    void clearActivitySkuStock(Long sku);
 }

@@ -4,6 +4,7 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.stereotype.Service;
 import top.codingshen.domain.activity.model.aggregate.CreateOrderAggregate;
 import top.codingshen.domain.activity.model.entity.*;
+import top.codingshen.domain.activity.model.valobj.ActivitySkuStockKeyVO;
 import top.codingshen.domain.activity.model.valobj.OrderStateVO;
 import top.codingshen.domain.activity.repository.IActivityRepository;
 import top.codingshen.domain.activity.service.rule.factory.DefaultActivityChainFactory;
@@ -18,7 +19,7 @@ import java.util.Date;
  * @Date 2024/3/31 - 22:05
  */
 @Service
-public class RaffleActivityService extends AbstractRaffleActivity{
+public class RaffleActivityService extends AbstractRaffleActivity implements ISkuStock {
 
     public RaffleActivityService(IActivityRepository activityRepository, DefaultActivityChainFactory defaultActivityChainFactory) {
         super(activityRepository, defaultActivityChainFactory);
@@ -57,5 +58,45 @@ public class RaffleActivityService extends AbstractRaffleActivity{
                 .monthCount(activityCountEntity.getMonthCount())
                 .activityOrderEntity(activityOrderEntity)
                 .build();
+    }
+
+    /**
+     * 获取活动sku库存消耗队列
+     *
+     * @return 奖品库存Key信息
+     * @throws InterruptedException 异常
+     */
+    @Override
+    public ActivitySkuStockKeyVO takeQueueValue() throws InterruptedException {
+        return activityRepository.takeQueueValue();
+
+    }
+
+    /**
+     * 清空队列
+     */
+    @Override
+    public void clearQueueValue() {
+        activityRepository.clearQueueValue();
+    }
+
+    /**
+     * 延迟队列 + 任务趋势更新活动sku库存
+     *
+     * @param sku 活动商品
+     */
+    @Override
+    public void updateActivitySkuStock(Long sku) {
+        activityRepository.updateActivitySkuStock(sku);
+    }
+
+    /**
+     * 缓存库存以消耗完毕，清空数据库库存
+     *
+     * @param sku 活动商品
+     */
+    @Override
+    public void clearActivitySkuStock(Long sku) {
+        activityRepository.clearActivitySkuStock(sku);
     }
 }
